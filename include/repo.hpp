@@ -34,17 +34,21 @@ namespace repo {
             }
         }
 
-
         return config;
     }
 
-    int run_command(config::Config config, std::string cmd) {
-        auto home = config.repo_home;
+    struct Context {
+        fs::path target_repo;
+        std::string cmd;
+    };
+
+    int run_command(Context context) {
+        std::cout << "Run cmd: " << context.cmd << " for repo: " << context.target_repo << std::endl;
 
         // write the output to file to enable reassembly after run is complete
 
         FILE *fp;
-        fp = popen(cmd.c_str(), "r");
+        fp = popen(context.cmd.c_str(), "r");
 
         if (fp == NULL) {
             std::cout << "ERROR! opening pipe" << std::endl;
@@ -74,9 +78,11 @@ namespace repo {
                 std::cout << "ERROR! could not change to dir: " << path << std::endl;
                 errors++;
             } else {
-                auto cmd = std::string("git pull");
-                std::cout << "Run cmd: " << cmd << " for repo: " << folder.filename() << std::endl;
-                std::shared_future<int> job = std::async(std::launch::async, run_command, config, cmd);
+                Context context;
+                context.target_repo = folder;
+                context.cmd = std::string("git pull");
+
+                std::shared_future<int> job = std::async(std::launch::async, run_command, context);
 
                 jobs.push_back(job);
             }
