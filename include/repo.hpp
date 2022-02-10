@@ -9,6 +9,8 @@
 #include <iostream>
 #include <string>
 #include <chrono>
+#include <vector>
+#include <future>
 #include <filesystem>
 #include <unistd.h>
 #include <sys/types.h>
@@ -112,10 +114,9 @@ namespace repo {
 
     int process(Config config) {
         int errors = 0;
+        std::vector<std::shared_future<int>> jobs;
+
         for (auto const& folder : config.folders) {
-            // create a thread
-            // chdir to folder
-            // do a git pull (fetch / merge)
             const char *path = folder.c_str();
             if (chdir(path) != 0) {
                 std::cout << "ERROR! could not change to dir: " << path << std::endl;
@@ -123,7 +124,9 @@ namespace repo {
             } else {
                 auto cmd = std::string("git pull");
                 std::cout << "Run cmd: " << cmd << " for repo: " << path << std::endl;
-                errors += run_command(config, cmd);
+                std::shared_future<int> job = std::async(std::launch::async, run_command, config, cmd);
+
+                jobs.push_back(job);
             }
         }
 
