@@ -11,9 +11,9 @@ int main(int argc, char *argv[]) {
     } else {
         std::cout << repo::BANNER << ", Version: " << repo::APP_VERSION << std::endl;
 
-        auto conf = scan_folders(config);
-
-        repo::show_config(conf);
+        config = repo::scan_folders(config);
+        std::cout << "Folder count: " << config.folders.size() << std::endl;
+        repo::process(config);
 
         return 0;
     }

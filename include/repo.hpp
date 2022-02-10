@@ -73,10 +73,61 @@ namespace repo {
 
         for (auto const& dir : fs::directory_iterator{cwd}) {
             // exclude only if there is a .git folder
-            config.folders.push_back(dir);
+            auto file =  fs::path(dir).append(".git");
+            if (fs::exists(file)) {
+                config.folders.push_back(dir);
+            }
         }
 
+
         return config;
+    }
+
+    int run_command(Config config, std::string cmd) {
+        auto home = config.repo_home;
+
+        // write the output to file to enable reassembly after run is complete
+
+        FILE *fp;
+        fp = popen(cmd.c_str(), "r");
+
+        if (fp == NULL) {
+            std::cout << "ERROR! opening pipe" << std::endl;
+            return(-1);
+        }
+
+        char buffer[1000];
+        while (fgets(buffer, 1000, fp) != NULL) {
+            std::cout << buffer ;
+        }
+        std::cout << std::endl;
+
+        int status = pclose(fp);
+        if (status < 0) {
+            std::cout << "ERROR! could not close pipe" << std::endl;
+        }
+
+        return 0;
+    }
+
+    int process(Config config) {
+        int errors = 0;
+        for (auto const& folder : config.folders) {
+            // create a thread
+            // chdir to folder
+            // do a git pull (fetch / merge)
+            const char *path = folder.c_str();
+            if (chdir(path) != 0) {
+                std::cout << "ERROR! could not change to dir: " << path << std::endl;
+                errors++;
+            } else {
+                auto cmd = std::string("git pull");
+                std::cout << "Run cmd: " << cmd << " for repo: " << path << std::endl;
+                errors += run_command(config, cmd);
+            }
+        }
+
+        return errors;
     }
 
     void show_config(Config config) {
@@ -86,9 +137,7 @@ namespace repo {
         std::cout << "Config: file: " << config.config_file << std::endl;
 
         for (auto const& dir : config.folders) {
-            if (fs::exists(dir / ".git")) {
-                std::cout << dir << std::endl;
-            }
+            std::cout << dir << std::endl;
         }
     }
 }

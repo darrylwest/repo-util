@@ -32,6 +32,7 @@ cmake
 * [CCache](https://ccache.dev/)
 * [Speed Log spdlog Fast c++ logger](https://github.com/gabime/spdlog)
 * [Build2 Toolchain](https://www.build2.org/)
+* [libgit2](https://github.com/libgit2/libgit2)
 
 ###### darryl.west | 2022.02.10
 
