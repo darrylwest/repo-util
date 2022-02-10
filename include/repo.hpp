@@ -15,62 +15,15 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
-#include "cxxopts.hpp"
+
+#include "config.hpp"
 
 namespace fs = std::filesystem;
 
 namespace repo {
-    const char* APP_VERSION = "22.2.10";
-    const char* BANNER = "Repository Maintenance Utilities © 2022 Rain City Software";
-
-    struct Config {
-        std::string name;
-        std::string repo_home = ".repo-utils";
-        std::string config_file = "config.json";
-        std::vector<fs::path> folders;
-        // op : pull, new branch, switch branch, merge to release
-        bool skip = false;
-    };
-
-    Config parse(int argc, char* argv[]) {
-        Config config;
-
-        config.name = std::string(argv[0]);
-
-        try {
-            cxxopts::Options options(config.name, BANNER);
-
-            options.add_options()
-                ("v,version", "Show the current version")
-                ("h,help", "Show this help")
-                ("c,config", "The configuration file", cxxopts::value<std::string>());
-
-            auto result = options.parse(argc, argv);
-
-            if (result.count("version")) {
-                std::cout << config.name << " Version: " << repo::APP_VERSION << std::endl;
-                config.skip = true;
-            }
-
-            if (result.count("help")) {
-                std::cout << options.help() << std::endl;
-                config.skip = true;
-            }
-
-            if (result.count("config")) {
-                config.config_file = result["config"].as<std::string>();
-            }
-        } catch (const cxxopts::OptionException& e) {
-            std::cout << "error parsing options: " << e.what() << std::endl;
-            config.skip = true;
-        }
-
-        return config;
-    }
-
     /// assume that the script is currently at the root of the repos
     /// use directory iterator to get the list of git repos
-    auto scan_folders(Config config) {
+    auto scan_folders(config::Config config) {
         auto cwd = fs::current_path();
 
         for (auto const& dir : fs::directory_iterator{cwd}) {
@@ -85,7 +38,7 @@ namespace repo {
         return config;
     }
 
-    int run_command(Config config, std::string cmd) {
+    int run_command(config::Config config, std::string cmd) {
         auto home = config.repo_home;
 
         // write the output to file to enable reassembly after run is complete
@@ -111,7 +64,7 @@ namespace repo {
         return 0;
     }
 
-    int process(Config config) {
+    int process(config::Config config) {
         int errors = 0;
         std::vector<std::shared_future<int>> jobs;
 
@@ -138,7 +91,7 @@ namespace repo {
         return errors;
     }
 
-    void show_config(Config config) {
+    void show_config(config::Config config) {
         // show the complete config...
         std::cout << "Config: name: " << config.name << std::endl;
         std::cout << "Config: home: " << config.repo_home << std::endl;

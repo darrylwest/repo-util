@@ -3,19 +3,20 @@
 
 #include <iostream>
 #include "../include/repo.hpp"
+#include "../include/config.hpp"
 
 namespace cm = Catch::Matchers;
 
 TEST_CASE("construct", "[create]") {
     SECTION("test version") {
-        auto const version = repo::APP_VERSION;
+        auto const version = repo::config::APP_VERSION;
         CHECK(version != nullptr);
         REQUIRE(strncmp(version, "22.", 3) == 0);
         REQUIRE_THAT(version, cm::Contains("22."));
     }
 
     SECTION("test banner") {
-        auto const banner = repo::BANNER;
+        auto const banner = repo::config::BANNER;
         CHECK(banner != nullptr);
         REQUIRE(strlen(banner) > 35);
         REQUIRE(strlen(banner) < 128);
@@ -35,7 +36,7 @@ TEST_CASE("command line", "[parse]") {
     SECTION("zero args") {
         int argc = 1;
         char *argv[] = {name};
-        auto config = repo::parse(argc, argv);
+        auto config = repo::config::parse(argc, argv);
         REQUIRE(std::end(argv) - std::begin(argv) == argc);
         REQUIRE_THAT(config.name, cm::Equals(name));
         REQUIRE_THAT(config.repo_home, cm::Equals(".repo-utils"));
@@ -46,7 +47,7 @@ TEST_CASE("command line", "[parse]") {
     SECTION("version") {
         char *argv[] = { name, version};
         int argc = std::end(argv) - std::begin(argv);
-        auto config = repo::parse(argc, argv);
+        auto config = repo::config::parse(argc, argv);
         REQUIRE_THAT(config.name, cm::Equals(name));
         REQUIRE_THAT(config.repo_home, cm::Equals(".repo-utils"));
         REQUIRE(config.skip == true);
@@ -56,7 +57,7 @@ TEST_CASE("command line", "[parse]") {
     SECTION("help") {
         char *argv[] = { name, help};
         int argc = std::end(argv) - std::begin(argv);
-        auto config = repo::parse(argc, argv);
+        auto config = repo::config::parse(argc, argv);
         REQUIRE_THAT(config.name, cm::Equals(name));
         REQUIRE_THAT(config.repo_home, cm::Equals(".repo-utils"));
         REQUIRE(config.skip == true);
@@ -66,7 +67,7 @@ TEST_CASE("command line", "[parse]") {
     SECTION("config") {
         char *argv[] = { name, config_option, config_file};
         int argc = std::end(argv) - std::begin(argv);
-        auto config = repo::parse(argc, argv);
+        auto config = repo::config::parse(argc, argv);
         REQUIRE_THAT(config.name, cm::Equals(name));
         REQUIRE_THAT(config.repo_home, cm::Equals(".repo-utils"));
         REQUIRE(config.skip == false);
