@@ -10,7 +10,12 @@
 #include <string>
 #include <chrono>
 #include <filesystem>
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
 #include "cxxopts.hpp"
+
+namespace fs = std::filesystem;
 
 namespace repo {
     const char* APP_VERSION = "22.2.10";
@@ -18,8 +23,10 @@ namespace repo {
 
     struct Config {
         std::string name;
-        std::string repo_home = ".repo";
+        std::string repo_home = ".repo-utils";
         std::string config_file = "config.json";
+        std::vector<fs::path> folders;
+        // op : pull, new branch, switch branch, merge to release
         bool skip = false;
     };
 
@@ -57,6 +64,32 @@ namespace repo {
         }
 
         return config;
+    }
+
+    /// assume that the script is currently at the root of the repos
+    /// use directory iterator to get the list of git repos
+    auto scan_folders(Config config) {
+        auto cwd = fs::current_path();
+
+        for (auto const& dir : fs::directory_iterator{cwd}) {
+            // exclude only if there is a .git folder
+            config.folders.push_back(dir);
+        }
+
+        return config;
+    }
+
+    void show_config(Config config) {
+        // show the complete config...
+        std::cout << "Config: name: " << config.name << std::endl;
+        std::cout << "Config: home: " << config.repo_home << std::endl;
+        std::cout << "Config: file: " << config.config_file << std::endl;
+
+        for (auto const& dir : config.folders) {
+            if (fs::exists(dir / ".git")) {
+                std::cout << dir << std::endl;
+            }
+        }
     }
 }
 

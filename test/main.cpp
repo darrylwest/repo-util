@@ -38,7 +38,7 @@ TEST_CASE("command line", "[parse]") {
         auto config = repo::parse(argc, argv);
         REQUIRE(std::end(argv) - std::begin(argv) == argc);
         REQUIRE_THAT(config.name, cm::Equals(name));
-        REQUIRE_THAT(config.repo_home, cm::Equals(".repo"));
+        REQUIRE_THAT(config.repo_home, cm::Equals(".repo-utils"));
         REQUIRE(config.skip == false);
         REQUIRE_THAT(config.config_file, cm::Matches("config.json"));
     }
@@ -48,7 +48,7 @@ TEST_CASE("command line", "[parse]") {
         int argc = std::end(argv) - std::begin(argv);
         auto config = repo::parse(argc, argv);
         REQUIRE_THAT(config.name, cm::Equals(name));
-        REQUIRE_THAT(config.repo_home, cm::Equals(".repo"));
+        REQUIRE_THAT(config.repo_home, cm::Equals(".repo-utils"));
         REQUIRE(config.skip == true);
         REQUIRE_THAT(config.config_file, cm::Matches("config.json"));
     }
@@ -58,7 +58,7 @@ TEST_CASE("command line", "[parse]") {
         int argc = std::end(argv) - std::begin(argv);
         auto config = repo::parse(argc, argv);
         REQUIRE_THAT(config.name, cm::Equals(name));
-        REQUIRE_THAT(config.repo_home, cm::Equals(".repo"));
+        REQUIRE_THAT(config.repo_home, cm::Equals(".repo-utils"));
         REQUIRE(config.skip == true);
         REQUIRE_THAT(config.config_file, cm::Matches("config.json"));
     }
@@ -68,7 +68,7 @@ TEST_CASE("command line", "[parse]") {
         int argc = std::end(argv) - std::begin(argv);
         auto config = repo::parse(argc, argv);
         REQUIRE_THAT(config.name, cm::Equals(name));
-        REQUIRE_THAT(config.repo_home, cm::Equals(".repo"));
+        REQUIRE_THAT(config.repo_home, cm::Equals(".repo-utils"));
         REQUIRE(config.skip == false);
         REQUIRE_THAT(config.config_file, cm::Matches("custom-config.json"));
     }
