@@ -102,7 +102,6 @@ namespace repo {
         while (fgets(buffer, 1000, fp) != NULL) {
             std::cout << buffer ;
         }
-        std::cout << std::endl;
 
         int status = pclose(fp);
         if (status < 0) {
@@ -123,11 +122,17 @@ namespace repo {
                 errors++;
             } else {
                 auto cmd = std::string("git pull");
-                std::cout << "Run cmd: " << cmd << " for repo: " << path << std::endl;
+                std::cout << "Run cmd: " << cmd << " for repo: " << folder.filename() << std::endl;
                 std::shared_future<int> job = std::async(std::launch::async, run_command, config, cmd);
 
                 jobs.push_back(job);
             }
+        }
+
+        for (auto job : jobs) {
+            int status = job.get();
+
+            errors += status;
         }
 
         return errors;
