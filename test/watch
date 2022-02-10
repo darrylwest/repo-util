@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# dpw@Darryls-iMac.localdomain
+# 2022-01-30 17:52:29
+#
+
+set -eu
+
+function run() {
+  watchexec -c -d 250 -e .cpp -p -i build -w ./ "cd build ; make && ./repo_unit_tests --durations yes"
+}
+
+run
+
+exit $?
+
