@@ -40,10 +40,22 @@ namespace repo {
     struct Context {
         fs::path target_repo;
         std::string cmd;
+        std::vector<std::string> response;
+        int errors = 0;
+
+        std::string to_string() {
+            std::string rstr = "";
+            for (std::string line : this->response) {
+                rstr += line;
+            }
+
+            return rstr;
+        }
     };
 
-    int run_command(Context context) {
-        std::cout << "Run cmd: " << context.cmd << " for repo: " << context.target_repo << std::endl;
+    Context run_command(Context context) {
+        auto filename = std::string(context.target_repo.filename());
+        context.response.push_back("Run: " + context.cmd + " for " + filename + ": ");
 
         // write the output to file to enable reassembly after run is complete
 
@@ -52,25 +64,28 @@ namespace repo {
 
         if (fp == NULL) {
             std::cout << "ERROR! opening pipe" << std::endl;
-            return(-1);
+            context.errors++; 
+            return context;
         }
 
         char buffer[1000];
         while (fgets(buffer, 1000, fp) != NULL) {
-            std::cout << buffer ;
+            // std::cout << buffer ;
+            context.response.push_back(std::string(buffer));
         }
 
         int status = pclose(fp);
         if (status < 0) {
             std::cout << "ERROR! could not close pipe" << std::endl;
+            context.errors++;
         }
 
-        return 0;
+        return context;
     }
 
     int process(config::Config config) {
         int errors = 0;
-        std::vector<std::shared_future<int>> jobs;
+        std::vector<std::shared_future<Context>> jobs;
 
         for (auto const& folder : config.folders) {
             const char *path = folder.c_str();
@@ -82,16 +97,18 @@ namespace repo {
                 context.target_repo = folder;
                 context.cmd = std::string("git pull");
 
-                std::shared_future<int> job = std::async(std::launch::async, run_command, context);
+                std::shared_future<Context> job = std::async(std::launch::async, run_command, context);
 
                 jobs.push_back(job);
             }
         }
 
         for (auto job : jobs) {
-            int status = job.get();
+            Context ctx = job.get();
 
-            errors += status;
+            errors += ctx.errors;
+
+            std::cout << ctx.to_string();
         }
 
         return errors;

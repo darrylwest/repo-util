@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
         std::cout << repo::config::BANNER << ", Version: " << repo::config::APP_VERSION << std::endl;
 
         config = repo::scan_folders(config);
-        std::cout << "Folder count: " << config.folders.size() << std::endl;
+        std::cout << "Repo count: " << config.folders.size() << std::endl;
         repo::process(config);
 
         return 0;
