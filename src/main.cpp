@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
         auto results = repos::process(config);
 
         for (auto result : results) {
+            // TODO write these results to a single log/report file
 
             if (result.errors != 0) {
                 fmt::print(fg(RED) | BOLD, "{}\n", result.to_string());
