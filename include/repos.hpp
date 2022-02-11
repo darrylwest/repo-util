@@ -82,9 +82,10 @@ namespace repos {
         return context;
     }
 
-    int process(config::Config config) {
+    auto process(config::Config config) {
         int errors = 0;
         std::vector<std::shared_future<Context>> jobs;
+        std::vector<Context> results;
 
         for (auto const& folder : config.folders) {
             Context context;
@@ -98,13 +99,12 @@ namespace repos {
 
         for (auto job : jobs) {
             Context ctx = job.get();
+            results.push_back(ctx);
 
             errors += ctx.errors;
-
-            std::cout << ctx.to_string();
         }
 
-        return errors;
+        return results;
     }
 
     void show_config(config::Config config) {

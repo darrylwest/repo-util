@@ -21,14 +21,19 @@ int main(int argc, char *argv[]) {
 
         config = repos::scan_folders(config);
         fmt::print(fg(CYAN), "Repo count: {}\n", config.folders.size());
-        int errors = repos::process(config);
+        auto results = repos::process(config);
 
-        if (errors != 0) {
-            fmt::print(fg(RED) | BOLD, "{} errors.\n", errors);
-        } else {
-            fmt::print(fg(GREEN) | BOLD, "{} errors.\n", errors);
+        for (auto result : results) {
+
+            if (result.errors != 0) {
+                fmt::print(fg(RED) | BOLD, "{}\n", result.to_string());
+                fmt::print(fg(RED) | BOLD, "{} errors.\n", result.errors);
+            } else {
+                fmt::print(BOLD, "{}", result.to_string());
+            }
         }
 
-        return errors;
     }
+
+    return 0;
 }
