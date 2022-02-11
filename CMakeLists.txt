@@ -11,10 +11,10 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 find_package(Threads REQUIRED)
-add_compile_options(-Wall -Wextra -pedantic -Werror -O0) #this slows the compiler way, way down
+add_compile_options(-Wall -Wextra -pedantic -Werror -O0)
 
 add_executable(${PROJECT_NAME} src/main.cpp) # should add new source files now...
-target_include_directories(repo PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(repos PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(${PROJECT_NAME} Threads::Threads)
 
 enable_testing()
