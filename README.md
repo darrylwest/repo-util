@@ -17,6 +17,7 @@ A small set of multi-repo maintenance utilities to pull, branch, release as a si
 ## Dependents
 
 * cxxopts for command line opt parsing
+* fmt/format
 * catch2 for unit tests
 
 ## Package Management
@@ -25,6 +26,7 @@ cmake
 
 ## Notes
 
+* output text is sometimes garbled because commands are invoked in parallel and all write to stdout.  fix would be to use libgit2 to invoke commands and capture output independently.
 * no classes, just structs
 
 ### References
@@ -34,5 +36,5 @@ cmake
 * [Build2 Toolchain](https://www.build2.org/)
 * [libgit2](https://github.com/libgit2/libgit2)
 
-###### darryl.west | 2022.02.10
+###### darryl.west | 2022.02.11
 
