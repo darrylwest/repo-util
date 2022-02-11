@@ -18,7 +18,7 @@ namespace fs = std::filesystem;
 
 namespace repos {
     namespace config {
-        const char* APP_VERSION = "22.2.11";
+        const char* APP_VERSION = "22.2.12";
         const char* BANNER = "Repository Maintenance Utilities © 2022 Rain City Software";
 
         struct Config {

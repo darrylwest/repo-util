@@ -63,8 +63,8 @@ namespace repos {
         fp = popen(context.cmd.c_str(), "r");
 
         if (fp == NULL) {
-            std::cout << "ERROR! opening pipe" << std::endl;
-            context.errors++; 
+            context.response.push_back("ERROR! opening pipe for " + context.cmd);
+            context.errors++;
             return context;
         }
 
@@ -76,7 +76,7 @@ namespace repos {
 
         int status = pclose(fp);
         if (status < 0) {
-            std::cout << "ERROR! could not close pipe" << std::endl;
+            context.response.push_back("ERROR! could not close pipe for " + context.cmd);
             context.errors++;
         }
 
