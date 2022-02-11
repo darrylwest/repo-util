@@ -29,8 +29,8 @@ function run() {
   (
     printf "run the examples...\n"
     cd build 
-    ./repo --version
-    ./repo --help
+    ./repos --version
+    ./repos --help
   )
 }
 
