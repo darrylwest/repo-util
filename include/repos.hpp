@@ -20,7 +20,7 @@
 
 namespace fs = std::filesystem;
 
-namespace repo {
+namespace repos {
     /// assume that the script is currently at the root of the repos
     /// use directory iterator to get the list of git repos
     auto scan_folders(config::Config config) {
