@@ -12,9 +12,8 @@
 #include <vector>
 #include <future>
 #include <filesystem>
-#include <unistd.h>
-#include <sys/types.h>
-#include <pwd.h>
+
+#include <fmt/core.h>
 
 #include "config.hpp"
 
@@ -55,7 +54,7 @@ namespace repos {
 
     Context run_command(Context context) {
         auto filename = std::string(context.target_repo.filename());
-        context.response.push_back("Run: " + context.cmd + " for " + filename + ": ");
+        context.response.push_back(context.cmd + ": ");
 
         // write the output to file to enable reassembly after run is complete
 
@@ -88,19 +87,13 @@ namespace repos {
         std::vector<std::shared_future<Context>> jobs;
 
         for (auto const& folder : config.folders) {
-            const char *path = folder.c_str();
-            if (chdir(path) != 0) {
-                std::cout << "ERROR! could not change to dir: " << path << std::endl;
-                errors++;
-            } else {
-                Context context;
-                context.target_repo = folder;
-                context.cmd = std::string("git pull");
+            Context context;
+            context.target_repo = folder;
+            context.cmd = fmt::format("git -C {} {}", folder.filename().c_str(), config.cmd);
 
-                std::shared_future<Context> job = std::async(std::launch::async, run_command, context);
+            std::shared_future<Context> job = std::async(std::launch::async, run_command, context);
 
-                jobs.push_back(job);
-            }
+            jobs.push_back(job);
         }
 
         for (auto job : jobs) {
