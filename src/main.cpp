@@ -1,3 +1,6 @@
+//
+// Created by Darryl West on 2022-02-10 13:06:59
+//
 
 #include <iostream>
 #include <fmt/core.h>
@@ -6,7 +9,6 @@
 #include "repos.hpp"
 #include "config.hpp"
 #include "reporter.hpp"
-
 
 int main(int argc, char *argv[]) {
     repos::config::Config config = repos::config::parse(argc, argv);
