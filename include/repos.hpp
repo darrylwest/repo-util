@@ -32,7 +32,6 @@ namespace repos {
             }
         }
 
-        fmt::print("Repo count: {}\n", config.folders.size());
 
         return config;
     }

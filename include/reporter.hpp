@@ -23,6 +23,10 @@ namespace repos {
             fmt::print(fg(BLUE) | BOLD, "{} Version: {}.\n", banner, version);
         }
 
+        auto show_repo_count(int count) {
+            fmt::print(BOLD, "Repo count: {}\n", count);
+        }
+
         auto show_results(std::vector<Context> results) {
             for (auto result : results) {
                 // TODO write these results to a single log/report file

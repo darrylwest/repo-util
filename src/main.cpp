@@ -17,6 +17,8 @@ int main(int argc, char *argv[]) {
         repos::reporter::show_header(repos::BANNER, repos::APP_VERSION);
 
         config = repos::scan_folders(config);
+        repos::reporter::show_repo_count(config.folders.size());
+
         auto results = repos::process(config);
         repos::reporter::show_results(results);
     }
