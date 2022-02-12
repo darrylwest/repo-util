@@ -14,10 +14,10 @@
 #include <filesystem>
 #include "cxxopts.hpp"
 
-namespace fs = std::filesystem;
-
 namespace repos {
     namespace config {
+        namespace fs = std::filesystem;
+
         const char* APP_VERSION = "22.2.14";
         const char* BANNER = "Repository Maintenance Utilities © 2022 Rain City Software";
 

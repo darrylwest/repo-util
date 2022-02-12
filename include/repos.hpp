@@ -12,14 +12,13 @@
 #include <vector>
 #include <future>
 #include <filesystem>
-
 #include <fmt/core.h>
 
 #include "config.hpp"
 
-namespace fs = std::filesystem;
-
 namespace repos {
+    namespace fs = std::filesystem;
+
     /// assume that the script is currently at the root of the repos
     /// use directory iterator to get the list of git repos
     auto scan_folders(config::Config config) {
@@ -32,6 +31,8 @@ namespace repos {
                 config.folders.push_back(dir);
             }
         }
+
+        fmt::print("Repo count: {}\n", config.folders.size());
 
         return config;
     }
