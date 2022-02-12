@@ -9,14 +9,14 @@ namespace cm = Catch::Matchers;
 
 TEST_CASE("construct", "[create]") {
     SECTION("test version") {
-        auto const version = repos::config::APP_VERSION;
+        auto const version = repos::APP_VERSION;
         CHECK(version != nullptr);
         REQUIRE(strncmp(version, "22.", 3) == 0);
         REQUIRE_THAT(version, cm::Contains("22."));
     }
 
     SECTION("test banner") {
-        auto const banner = repos::config::BANNER;
+        auto const banner = repos::BANNER;
         CHECK(banner != nullptr);
         REQUIRE(strlen(banner) > 35);
         REQUIRE(strlen(banner) < 128);
