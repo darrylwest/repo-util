@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     if (config.skip) {
         return 0;
     } else {
-        repos::reporter::show_header(repos::config::BANNER, repos::config::APP_VERSION);
+        repos::reporter::show_header(repos::BANNER, repos::APP_VERSION);
 
         config = repos::scan_folders(config);
         auto results = repos::process(config);
