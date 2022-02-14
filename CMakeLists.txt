@@ -14,6 +14,9 @@ find_package(fmt REQUIRED)
 find_package(Threads REQUIRED)
 add_compile_options(-Wall -Wextra -pedantic -Werror -O0)
 
+# set(BUILD_SHARED_LIBS OFF)
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+
 add_executable(${PROJECT_NAME} src/main.cpp) # should add new source files now...
 target_include_directories(repos PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(${PROJECT_NAME} Threads::Threads)
