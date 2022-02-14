@@ -7,6 +7,10 @@ project(repos VERSION 1.0.1 LANGUAGES CXX)
 
 # configure_file(app_version.hpp.in in app_version.hpp)
 
+# to create a static (but much larger) binary
+# set(BUILD_SHARED_LIBS OFF)
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
