@@ -4,7 +4,7 @@
 #include <iostream>
 
 #define FMT_HEADER_ONLY
-#include "fmt/format.h"
+#include "../include/fmt/format.h"
 
 #include "../include/repos.hpp"
 #include "../include/config.hpp"
