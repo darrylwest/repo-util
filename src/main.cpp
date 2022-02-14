@@ -3,8 +3,9 @@
 //
 
 #include <iostream>
-#include <fmt/core.h>
-#include <fmt/color.h>
+
+#define FMT_HEADER_ONLY
+#include "fmt/format.h"
 
 #include "repos.hpp"
 #include "config.hpp"

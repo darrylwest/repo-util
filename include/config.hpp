@@ -15,7 +15,7 @@
 #include "cxxopts.hpp"
 
 namespace repos {
-    const char* APP_VERSION = "22.2.15";
+    const char* APP_VERSION = "22.2.16";
     const char* BANNER = "Repository Maintenance Utilities © 2022 Rain City Software";
 
     namespace config {
