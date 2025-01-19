@@ -85,7 +85,6 @@ namespace repos {
     }
 
     auto process(config::Config config) {
-        int errors = 0;
         std::vector<std::shared_future<Context>> jobs;
         std::vector<Context> results;
 
@@ -99,11 +98,12 @@ namespace repos {
             jobs.push_back(job);
         }
 
+        // int errors = 0;
         for (auto job : jobs) {
             Context ctx = job.get();
             results.push_back(ctx);
 
-            errors += ctx.errors;
+            // errors += ctx.errors;
         }
 
         return results;
