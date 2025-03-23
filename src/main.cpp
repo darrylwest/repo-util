@@ -5,7 +5,6 @@
 #include <iostream>
 
 #define FMT_HEADER_ONLY
-#include "fmt/format.h"
 
 #include "repos.hpp"
 #include "config.hpp"
@@ -15,7 +14,7 @@ int main(int argc, char *argv[]) {
     repos::config::Config config = repos::config::parse(argc, argv);
 
     if (config.skip) {
-        return 0;
+        return 1;
     } else {
         repos::reporter::show_header(repos::BANNER, repos::APP_VERSION);
 

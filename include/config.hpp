@@ -4,19 +4,16 @@
 //
 
 #pragma once
-#ifndef REPO_CONFIG_HPP
-#define REPO_CONFIG_HPP
 
 #include <iostream>
 #include <string>
-#include <chrono>
 #include <vector>
 #include <filesystem>
 #include "cxxopts.hpp"
 
 namespace repos {
-    const char* APP_VERSION = "22.2.16";
-    const char* BANNER = "Repository Maintenance Utilities © 2022 Rain City Software";
+    constexpr auto APP_VERSION = "0.2.16-100";
+    constexpr auto BANNER = "Repository Maintenance Utilities © 2022 Rain City Software";
 
     namespace config {
         namespace fs = std::filesystem;
@@ -31,7 +28,7 @@ namespace repos {
             bool skip = false;
         };
 
-        Config parse(int argc, char* argv[]) {
+        inline Config parse(int argc, char* argv[]) {
             Config config;
 
             config.name = std::string(argv[0]);
@@ -74,4 +71,3 @@ namespace repos {
     }
 }
 
-#endif

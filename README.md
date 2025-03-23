@@ -12,7 +12,7 @@
 
 ## Overview
 
-A small set of multi-repo maintenance utilities to pull, branch, release as a single set.
+A small set of multi-repo maintenance utilities to pull, branch, release as a single set. 
 
 ## Dependents
 
@@ -24,10 +24,6 @@ A small set of multi-repo maintenance utilities to pull, branch, release as a si
 
 cmake
 
-## Notes
-
-* no classes, just structs
-
 ### References
 
 * [CCache](https://ccache.dev/)
@@ -35,5 +31,5 @@ cmake
 * [Build2 Toolchain](https://www.build2.org/)
 * [libgit2](https://github.com/libgit2/libgit2)
 
-###### darryl.west | 2022.02.12
+###### 2025.03.23 | dpw
 
