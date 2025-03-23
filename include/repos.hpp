@@ -3,8 +3,6 @@
 //
 
 #pragma once
-#ifndef REPO_HPP
-#define REPO_HPP
 
 #include <iostream>
 #include <string>
@@ -14,7 +12,6 @@
 #include <filesystem>
 
 #include "fmt/core.h"
-#include "fmt/color.h"
 
 #include "config.hpp"
 
@@ -23,7 +20,7 @@ namespace repos {
 
     /// assume that the script is currently at the root of the repos
     /// use directory iterator to get the list of git repos
-    auto scan_folders(config::Config config) {
+    inline auto scan_folders(config::Config config) {
         auto cwd = fs::current_path();
 
         for (auto const& dir : fs::directory_iterator{cwd}) {
@@ -44,9 +41,9 @@ namespace repos {
         std::vector<std::string> response;
         int errors = 0;
 
-        std::string to_string() {
-            std::string rstr = "";
-            for (std::string line : this->response) {
+        [[nodiscard]] std::string to_string() const {
+            std::string rstr;
+            for (const auto &line : this->response) {
                 rstr += line;
             }
 
@@ -54,7 +51,7 @@ namespace repos {
         }
     };
 
-    Context run_command(Context context) {
+    inline Context run_command(Context context) {
         auto filename = std::string(context.target_repo.filename());
         context.response.push_back(context.cmd + ": ");
 
@@ -63,16 +60,16 @@ namespace repos {
         FILE *fp;
         fp = popen(context.cmd.c_str(), "r");
 
-        if (fp == NULL) {
+        if (fp == nullptr) {
             context.response.push_back("ERROR! opening pipe for " + context.cmd);
             context.errors++;
             return context;
         }
 
         char buffer[1000];
-        while (fgets(buffer, 1000, fp) != NULL) {
+        while (fgets(buffer, 1000, fp) != nullptr) {
             // std::cout << buffer ;
-            context.response.push_back(std::string(buffer));
+            context.response.emplace_back(buffer);
         }
 
         int status = pclose(fp);
@@ -84,7 +81,7 @@ namespace repos {
         return context;
     }
 
-    auto process(config::Config config) {
+    inline auto process(config::Config& config) {
         std::vector<std::shared_future<Context>> jobs;
         std::vector<Context> results;
 
@@ -99,7 +96,7 @@ namespace repos {
         }
 
         // int errors = 0;
-        for (auto job : jobs) {
+        for (const auto &job : jobs) {
             Context ctx = job.get();
             results.push_back(ctx);
 
@@ -109,7 +106,7 @@ namespace repos {
         return results;
     }
 
-    void show_config(config::Config config) {
+    inline void show_config(const config::Config &config) {
         // show the complete config...
         std::cout << "Config: name: " << config.name << std::endl;
         std::cout << "Config: home: " << config.repo_home << std::endl;
@@ -121,4 +118,3 @@ namespace repos {
     }
 }
 
-#endif

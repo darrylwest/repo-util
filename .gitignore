@@ -48,3 +48,6 @@ lib/*
 bin/*
 repos
 test/repo_unit_tests
+
+.idea
+.vscode

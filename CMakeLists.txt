@@ -1,7 +1,7 @@
 #
 # 2022-02-10 09:48:22 dpw
 #
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.30)
 # todo: create header.in to read version
 project(repos VERSION 1.0.1 LANGUAGES CXX)
 
