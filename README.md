@@ -1,13 +1,11 @@
 # Repository Maintenance Utilities
 
-```
- ___                 _   _ _   _ _ _ _   _
-| _ \___ _ __  ___  | | | | |_(_) (_) |_(_)___ ___
-|   / -_) '_ \/ _ \ | |_| |  _| | | |  _| / -_|_-<
-|_|_\___| .__/\___/  \___/ \__|_|_|_|\__|_\___/__/
-        |_|
-
-       01110010 01100101 01110000 01101111
+```ascii
+                    ______                       _______ __   __ __        
+.----.-----.-----. |   __ \.-----.-----.-----.  |   |   |  |_|__|  |.-----.
+|  __|  _  |  _  | |      <|  -__|  _  |  _  |__|   |   |   _|  |  ||__ --|
+|____|   __|   __| |___|__||_____|   __|_____|__|_______|____|__|__||_____|
+     |__|  |__|                  |__|                                      
 ```
 
 ## Overview
@@ -17,19 +15,12 @@ A small set of multi-repo maintenance utilities to pull, branch, release as a si
 ## Dependents
 
 * cxxopts for command line opt parsing
-* fmt/format
 * catch2 for unit tests
 
 ## Package Management
 
-cmake
+cmake 3.3
 
-### References
 
-* [CCache](https://ccache.dev/)
-* [Speed Log spdlog Fast c++ logger](https://github.com/gabime/spdlog)
-* [Build2 Toolchain](https://www.build2.org/)
-* [libgit2](https://github.com/libgit2/libgit2)
-
-###### 2025.03.23 | dpw
+###### 2025.03.27 | dpw
 
